@@ -7,8 +7,8 @@ import DataFetch from "../DataFetch/DataFetch";
 const Currency = () => {
   const [amount, setAmount] = useState(0);
   const [code, setCode] = useState("CHF");
-  const [rate, setRate] = useState(0);
-  const [result, setResult] = useState(0);
+
+  // const [result, setResult] = useState(0);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -42,7 +42,7 @@ const Currency = () => {
 
         setRate(data.rates[0].mid);
 
-        setResult(rate * amount);
+        //  setResult(rate * amount);
       })
 
       .catch(() => {

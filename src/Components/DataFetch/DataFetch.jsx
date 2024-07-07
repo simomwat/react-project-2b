@@ -4,18 +4,16 @@ import styles from "../DataFetch/DataFetch.module.css";
 
 import Currency from "../Currency/Currency";
 
-const errormessage = document.createElement("p");
-
 const DataFetch = (props) => {
   const [amount, setAmount] = useState(0);
   const [rate, setRate] = useState("");
   const [result, setResult] = useState(0);
 
-  useEffect(() => {
-    setAmount(props.amount);
-    setRate(props.rate);
-    setResult(amount * rate);
-  });
+  // useEffect(() => {
+  setAmount(props.amount);
+  setRate(props.rate);
+  setResult(amount * rate);
+  // });
 
   return (
     <section className={styles.section}>
