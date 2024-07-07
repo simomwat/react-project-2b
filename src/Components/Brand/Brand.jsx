@@ -6,9 +6,6 @@ function Brand() {
       <img className={styles.image} src="/image.jpg" alt="mylogo" />
 
       <h1 className={styles.title}>Currencies Converters</h1>
-      <div>
-        <p id="loader" className={styles.load}></p>
-      </div>
     </header>
   );
 }

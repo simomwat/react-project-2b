@@ -1,63 +1,60 @@
 import React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import styles from "./Currency.module.css";
 import DataFetch from "../DataFetch/DataFetch";
-import DataCalculation from "../DataFetch/DataCalculation";
 
 const Currency = () => {
-  const [amount, setAmount] = useState();
-  const [code, setCode] = useState();
-
-  //const [result, setResult] = useState("");
+  const [amount, setAmount] = useState(0);
+  const [code, setCode] = useState("CHF");
+  const [rate, setRate] = useState(0);
+  const [result, setResult] = useState(0);
 
   function handleSubmit(event) {
     event.preventDefault();
-    //setAmount("Form has been submitted with with Input: " + amount);
-
-    //setResult("Form has been submitted with with Input: " + amount);
-
     setAmount(event.target.amount.value);
     setCode(event.target.code.value);
-    // setRate(rops.rate);
   }
 
-  //function handleChange(event) {
-  //  setAmount(event.target.value);
-  //  setCode(event.target.value);
+  const errormessage = document.createElement("p");
 
-  // setResult("");
-  // }
+  const showError = () => {
+    errormessage.textcontent = "We have a problem";
+    errormessage.style.color = "red";
+    document.body.appendChild(errormessage);
+  };
 
-  // setRate(3);
+  if ({ code }) {
+    //fetch(`https://api.nbp.pl/api/exchangerates/rates/a/${code}/today/`)
+    fetch(`https://api.nbp.pl/api/exchangerates/rates/A/${code}/`)
+      .then((response) => {
+        if (!response.ok) {
+          return Promise.reject(response);
+        }
+        return response.json();
+      })
 
-  console.log("Currency level amount:" + amount);
-  //console.log("Currency level rate:" + rate);
-  console.log("this is my code" + code);
-  console.log("CURRENCY LEVEL:");
+      .then((data) => {
+        if (!data) {
+          showError();
+          return;
+        }
 
-  //console.log("Rate now on DataFetch:" + rate);
-  //const convertedAmount = amount * rate;
-  //setResult(` ${convertedAmount.toFixed(2)} `);
+        setRate(data.rates[0].mid);
 
-  // document.getElementById("pln").innerText = ` ${convertedAmount.toFixed(2)} `;
-  // console.log("Total now  on DataFetch:" + convertedAmount);
+        setResult(rate * amount);
+      })
 
-  // const items = {
-  //  amount: amount,
-  //  code: code,
-  // };
-
+      .catch(() => {
+        showError();
+      });
+  }
   return (
-    <section>
+    <section className={styles.container}>
       <div>
-        <form id="myform" className={styles.container} onSubmit={handleSubmit}>
-          <DataFetch amount={amount} code={code} />
-
+        <form id="myform" className={styles.position} onSubmit={handleSubmit}>
           <input
             className={styles.item}
-            // value={amount}
-            //onInput={handleChange}
             name="amount"
             type="number"
             min="0.01"
@@ -72,15 +69,12 @@ const Currency = () => {
           <button type="submit" className={styles.item}>
             Convert
           </button>
-          <span className={styles.para}>
-            TO <span id="pln">0</span> PLN2
-          </span>
         </form>
         <br />
         <div></div>
       </div>
+      <DataFetch rate={rate} amount={amount} />
     </section>
   );
 };
-
 export default Currency;

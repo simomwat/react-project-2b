@@ -2,33 +2,22 @@
   box-sizing: border-box;
 }
 
-.details {
-  padding: 30px;
-  background-color: lightgray;
-  gap: 10px;
-}
-
 .item {
-  height: 40px;
-}
-
-.items {
-  padding: 30px;
-  gap: 10px;
   height: 40px;
 }
 
 .container {
   display: flex;
   justify-content: center;
-  align-items: center;
   text-align: center;
-  background-color: lightgray;
-  padding: 30px;
-  background-color: lightgray;
   gap: 10px;
+  background-color: aquamarine;
+  padding-top: 20px;
 }
 
-.para {
-  font-weight: 700;
+.position {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  gap: 5px;
 }
