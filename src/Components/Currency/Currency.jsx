@@ -1,8 +1,8 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import styles from "./Currency.module.css";
-import DataFetch from "../DataFetch/DataFetch";
+import Results from "../Results/Results";
 
 const Currency = () => {
   const [amount, setAmount] = useState(0);
@@ -44,11 +44,6 @@ const Currency = () => {
         setRate(data.rates[0].mid);
 
         setResult(rate * amount);
-
-        console.log("Rate :" + rate);
-        console.log("Code :" + code);
-        console.log("Amount :" + amount);
-        console.log("Result :" + result);
       })
 
       .catch(() => {
@@ -79,7 +74,7 @@ const Currency = () => {
         <br />
         <div></div>
       </div>
-      <DataFetch rate={rate} amount={amount} />
+      <Results result={result} />
     </section>
   );
 };
