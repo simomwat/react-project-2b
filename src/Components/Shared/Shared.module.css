@@ -1,0 +1,17 @@
+.containers {
+  display: flex;
+  justify-content: right;
+  text-align: right;
+  font-weight: 600;
+  padding-right: 10px;
+  position: absolute;
+  transform: translate(-10%, -10%);
+  top: 0;
+  left: 0;
+}
+
+.button {
+  gap: 10px;
+  height: 40px;
+  position: relative;
+}

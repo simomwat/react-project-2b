@@ -9,11 +9,11 @@ const DataFetch = (props) => {
   const [rate, setRate] = useState("");
   const [result, setResult] = useState(0);
 
-  // useEffect(() => {
-  setAmount(props.amount);
-  setRate(props.rate);
-  setResult(amount * rate);
-  // });
+  useEffect(() => {
+    setAmount(props.amount);
+    setRate(props.rate);
+    setResult(amount * rate);
+  });
 
   return (
     <section className={styles.section}>
