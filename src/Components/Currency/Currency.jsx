@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import styles from "./Currency.module.css";
 import Results from "../Results/Results";
@@ -9,47 +9,53 @@ const Currency = () => {
   const [code, setCode] = useState("CHF");
   const [rate, setRate] = useState(0);
   const [result, setResult] = useState(0);
+  const [errorMessage, setErrorMessage] = useState("");
 
   function handleSubmit(event) {
     event.preventDefault();
 
     setAmount(event.target.amount.value);
+    //const amount = event.target.amount.value;
+    //const code = event.target.code.value;
     setCode(event.target.code.value);
   }
 
-  const errormessage = document.createElement("p");
+  //const errormessage = document.createElement("p");
 
   const showError = () => {
-    errormessage.textcontent = "We have a problem";
-    errormessage.style.color = "red";
-    document.body.appendChild(errormessage);
+    setErrorMessage("Having problem, try again latter!");
   };
 
-  if ({ code }) {
-    //fetch(`https://api.nbp.pl/api/exchangerates/rates/a/${code}/today/`)
-    fetch(`https://api.nbp.pl/api/exchangerates/rates/A/${code}/`)
-      .then((response) => {
-        if (!response.ok) {
-          return Promise.reject(response);
-        }
-        return response.json();
-      })
+  useEffect(() => {
+    if (code) {
+      //fetch(`https://api.nbp.pl/api/exchangerates/rates/a/${code}/today/`)
+      fetch(`https://api.nbp.pl/api/exchangerates/rates/A/${code}/`)
+        .then((response) => {
+          if (!response.ok) {
+            showError();
+            return Promise.reject(response);
+          }
+          return response.json();
+        })
 
-      .then((data) => {
-        if (!data) {
+        .then((data) => {
+          if (!data) {
+            showError();
+            return;
+          }
+
+          setRate(data.rates[0].mid);
+          console.log(rate);
+
+          setResult(rate * amount);
+        })
+
+        .catch(() => {
           showError();
-          return;
-        }
+        });
+    }
+  });
 
-        setRate(data.rates[0].mid);
-
-        setResult(rate * amount);
-      })
-
-      .catch(() => {
-        showError();
-      });
-  }
   return (
     <section className={styles.container}>
       <div>
@@ -71,8 +77,8 @@ const Currency = () => {
             Convert
           </button>
         </form>
-        <br />
-        <div></div>
+
+        {errorMessage && <div className={styles.error}> {errorMessage} </div>}
       </div>
       <Results result={result} />
     </section>
