@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import styles from "./Currency.module.css";
 import Results from "../Results/Results";
