@@ -5,31 +5,16 @@ import styles from "./Currency.module.css";
 import Results from "../Results/Results";
 
 const Currency = () => {
-  const [amount, setAmount] = useState(0);
-  const [code, setCode] = useState("CHF");
-  const [rate, setRate] = useState(0);
   const [result, setResult] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
 
   function handleSubmit(event) {
     event.preventDefault();
 
-    setAmount(event.target.amount.value);
-    //const amount = event.target.amount.value;
-    //const code = event.target.code.value;
-    setCode(event.target.code.value);
-  }
-
-  //const errormessage = document.createElement("p");
-
-  const showError = () => {
-    setErrorMessage("Having problem, try again latter!");
-  };
-
-  useEffect(() => {
-    if (code) {
-      //fetch(`https://api.nbp.pl/api/exchangerates/rates/a/${code}/today/`)
-      fetch(`https://api.nbp.pl/api/exchangerates/rates/A/${code}/`)
+    if (event.target.code.value) {
+      fetch(
+        `https://api.nbp.pl/api/exchangerates/rates/A/${event.target.code.value}/`
+      )
         .then((response) => {
           if (!response.ok) {
             showError();
@@ -44,17 +29,18 @@ const Currency = () => {
             return;
           }
 
-          setRate(data.rates[0].mid);
-          console.log(rate);
-
-          setResult(rate * amount);
+          setResult(data.rates[0].mid * event.target.amount.value);
         })
 
         .catch(() => {
           showError();
         });
     }
-  });
+  }
+
+  const showError = () => {
+    setErrorMessage("Having problem, try again latter!");
+  };
 
   return (
     <section className={styles.container}>

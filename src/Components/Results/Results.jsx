@@ -18,6 +18,7 @@ const Results = ({ result }) => {
       </section>
     );
   }
+  return null;
 };
 
 export default Results;
